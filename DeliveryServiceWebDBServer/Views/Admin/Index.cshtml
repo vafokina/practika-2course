@@ -1,0 +1,105 @@
+﻿@using DeliveryServiceWebDBServer.Models
+@model DeliveryServiceWebDBServer.Models.PackageListViewModel
+@{
+
+    ViewBag.Title = "Главная";
+    bool active = false;
+    if (TempData["ActiveConstructor"] != null) { active = true; }
+}
+
+
+<div class="panel panel-default tabs">
+    <ul class="nav nav-tabs" role="tablist">
+        @if (!active)
+        {
+            <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">Работа с данными</a></li>}
+        else
+        {
+            <li><a href="#tab-first" role="tab" data-toggle="tab">Работа с данными</a></li>            }
+        @if (active)
+        {
+            <li class="active"><a href="#tab-second" role="tab" data-toggle="tab">Расширенный поиск</a></li>}
+        else
+        {
+            <li><a href="#tab-second" role="tab" data-toggle="tab">Расширенный поиск</a></li>            }
+        <li>
+    </ul>
+    <div class="panel-body tab-content">
+        <div class="tab-pane @if (!active) { @Html.Encode("active")}" id="tab-first">
+            <div class="container">
+                <div class="navbar-collapse collapse">
+                    <form class="navbar-form navbar-left" action="~/Admin/CreateStep1">
+                        <button class="btn btn-default">Добавить</button>
+                    </form>
+                    @Html.Partial("~/Views/Home/_SearchInput.cshtml", new SearchIdModel())
+                    @if (Model.CurrentCentre != null)
+                    {<form class="navbar-form navbar-left" action="~/Admin/CurrentCentre/@Model.CurrentCentre.Id">
+                            <button class="btn btn-default">ПВЗ: @Model.CurrentCentre.City.Region.Country.NameCountry, @Model.CurrentCentre.City.NameCity, @Model.CurrentCentre.Address</button>
+                        </form>}
+                </div>
+            </div>
+            <div class="row panel">
+                <div id="categories" class="col-xs-2">
+
+                    <div class="btn-group-vertical">
+                        @if ("Все" == Model.CurrentCategory)
+                        {<a href="~/Admin/Index" class="btn btn-primary" role="button">Все</a> }
+                        else
+                        { <a href="~/Admin/Index" class="btn btn-link" role="button">Все</a>}
+                        @if ("Зарегистрированные" == Model.CurrentCategory)
+                        {<a href="~/Admin/Category1" class="btn btn-primary" role="button">Зарегистрированные</a> }
+                        else
+                        { <a href="~/Admin/Category1" class="btn btn-link" role="button">Зарегистрированные</a>}
+                        @if ("Ожидают отправки" == Model.CurrentCategory)
+                        {<a href="~/Admin/Category2" class="btn btn-primary" role="button">Ожидают отправки</a> }
+                        else
+                        { <a href="~/Admin/Category2" class="btn btn-link" role="button">Ожидают отправки</a>}
+                        @if ("В пути" == Model.CurrentCategory)
+                        {<a href="~/Admin/Category3" class="btn btn-primary" role="button">В пути</a> }
+                        else
+                        { <a href="~/Admin/Category3" class="btn btn-link" role="button">В пути</a>}
+                        @if ("Ожидают принятия" == Model.CurrentCategory)
+                        {<a href="~/Admin/Category4" class="btn btn-primary" role="button">Ожидают принятия</a> }
+                        else
+                        { <a href="~/Admin/Category4" class="btn btn-link" role="button">Ожидают принятия</a>}
+                        @if ("У курьеров" == Model.CurrentCategory)
+                        {<a href="~/Admin/Category5" class="btn btn-primary" role="button">У курьеров</a> }
+                        else
+                        { <a href="~/Admin/Category5" class="btn btn-link" role="button">У курьеров</a>}
+                        @if ("В пункте выдачи" == Model.CurrentCategory)
+                        {<a href="~/Admin/Category6" class="btn btn-primary" role="button">В пункте выдачи</a> }
+                        else
+                        { <a href="~/Admin/Category6" class="btn btn-link" role="button">В пункте выдачи</a>}
+                        @if ("Доставленные" == Model.CurrentCategory)
+                        {<a href="~/Admin/Category7" class="btn btn-primary" role="button">Доставленные</a> }
+                        else
+                        { <a href="~/Admin/Category7" class="btn btn-link" role="button">Доставленные</a>}
+                        @if ("Возвраты" == Model.CurrentCategory)
+                        {<a href="~/Admin/Category8" class="btn btn-primary" role="button">Возвраты</a> }
+                        else
+                        { <a href="~/Admin/Category8" class="btn btn-link" role="button">Возвраты</a>}
+                        @if ("Отмененные" == Model.CurrentCategory)
+                        {<a href="~/Admin/Category9" class="btn btn-primary" role="button">Отмененные</a> }
+                        else
+                        { <a href="~/Admin/Category9" class="btn btn-link" role="button">Отмененные</a>}
+                        @if ("Без статуса" == Model.CurrentCategory)
+                        {<a href="~/Admin/Category10" class="btn btn-primary" role="button">Без статуса</a> }
+                        else
+                        { <a href="~/Admin/Category10" class="btn btn-link" role="button">Без статуса</a>}
+                    </div>
+
+                    @*@Html.Action("Menu", "CategoriesNavigator", new { category = Model.CurrentCategory })*@
+                </div>
+                <div class="col-xs-10">
+                    @Html.Partial("~/Views/Home/_Table.cshtml")
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane @if (active) { @Html.Encode("active")}" id="tab-second">
+            @*@Html.Partial("~/Views/Admin/_Constructor.cshtml")*@
+            @Html.Action("Index", "Constructor")
+            @*@RenderSection("Constructor", required:false)*@
+        </div>
+    </div>
+</div>
+

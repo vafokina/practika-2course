@@ -1,0 +1,192 @@
+﻿@model DeliveryServiceWebDBServer.Models.Package
+@using DeliveryServiceWebDBServer.Models
+
+@{
+    /**/
+
+    ViewBag.Title = "#" + Model.Id;
+}
+@if (null != TempData["alertMessage"])
+{
+    <script type="text/javascript">
+       alert("@TempData["alertMessage"]");
+    </script>
+}
+
+<table>
+    <tr>
+        <td>
+            <h2>Накладная #@Model.Id</h2>
+        </td>
+        <td align="right" valign="middle" width=auto>
+            <form class="navbar-form navbar-left" action="~/Home/ExportFile/@Model.Id">
+                <button class="btn btn-default">Скачать файл накладной</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<div class="row">
+    <div class="col-md-5">
+        <h4>Отправитель</h4>
+        <dl class="dl-horizontal">
+            <dt>ФИО</dt>
+            <dd>@Model.PersonFrom.Name @Model.PersonFrom.MiddleName @Model.PersonFrom.Surname</dd>
+            <dt>Компания</dt>
+            <dd>@Model.PersonFrom.Company</dd>
+            <dt>Телефон</dt>
+            <dd>@Model.PersonFrom.Phone</dd>
+            <dt>Электронная почта</dt>
+            <dd>@Model.PersonFrom.Mail</dd>
+
+            @{ string str0 = "Адрес"; string str = "";
+                if (Model.PersonFrom.CityId != null)
+                {
+                    if (Model.PersonFrom.Index != null && Model.PersonFrom.Index.Length > 0) { str += Model.PersonFrom.Index + ", "; }
+                    str += Model.PersonFrom.City.Region.Country.NameCountry + ", " + Model.PersonFrom.City.Region.NameRegion + ", " + Model.PersonFrom.City.NameCity + ", " + Model.PersonFrom.Address;
+                }
+                else
+                {
+                    str0 += " пункта выдачи";
+                    if (Model.PersonFrom.DistributionCentre.Index != null && Model.PersonFrom.DistributionCentre.Index.Length > 0) { str += Model.PersonFrom.DistributionCentre.Index + ", "; }
+                    str += Model.PersonFrom.DistributionCentre.City.Region.Country.NameCountry + ", " + Model.PersonFrom.DistributionCentre.City.Region.NameRegion + ", " + Model.PersonFrom.DistributionCentre.City.NameCity + ", " + Model.PersonFrom.DistributionCentre.Address;
+                }
+            }
+            <dt>@str0</dt>
+            <dd>@str</dd>
+            <dt>Уведомление о доставке по SMS</dt>
+            <dd>
+                @Html.DisplayFor(model => model.PersonFrom.InformingSMS)
+            </dd>
+            <dt>Уведомление о доставке по электронной почте</dt>
+            <dd>
+                @Html.DisplayFor(model => model.PersonFrom.InformingMail)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-5">
+        <h4>Получатель</h4>
+        <dl class="dl-horizontal">
+            <dt>ФИО</dt>
+            <dd>@Model.PersonTo.Name @Model.PersonTo.MiddleName @Model.PersonTo.Surname</dd>
+            <dt>Компания</dt>
+            <dd>@Model.PersonTo.Company</dd>
+            <dt>Телефон</dt>
+            <dd>@Model.PersonTo.Phone</dd>
+            <dt>Электронная почта</dt>
+            <dd>@Model.PersonTo.Mail</dd>
+
+            @{ str0 = "Адрес"; str = "";
+                if (Model.PersonTo.CityId != null)
+                {
+                    if (Model.PersonTo.Index != null && Model.PersonTo.Index.Length > 0) { str += Model.PersonTo.Index + ", "; }
+                    str += Model.PersonTo.City.Region.Country.NameCountry + ", " + Model.PersonTo.City.Region.NameRegion + ", " + Model.PersonTo.City.NameCity + ", " + Model.PersonTo.Address;
+                }
+                else
+                {
+                    str0 += " пункта выдачи";
+                    if (Model.PersonTo.DistributionCentre.Index != null && Model.PersonTo.DistributionCentre.Index.Length > 0) { str += Model.PersonTo.DistributionCentre.Index + ", "; }
+                    str += Model.PersonTo.DistributionCentre.City.Region.Country.NameCountry + ", " + Model.PersonTo.DistributionCentre.City.Region.NameRegion + ", " + Model.PersonTo.DistributionCentre.City.NameCity + ", " + Model.PersonTo.DistributionCentre.Address;
+                }
+            }
+            <dt>@str0</dt>
+            <dd>@str</dd>
+            <dt>Уведомление о доставке по SMS</dt>
+            <dd>
+                @Html.DisplayFor(model => model.PersonTo.InformingSMS)
+            </dd>
+            <dt>Уведомление о доставке по электронной почте</dt>
+            <dd>
+                @Html.DisplayFor(model => model.PersonTo.InformingMail)
+            </dd>
+        </dl>
+    </div>
+</div>
+<div class="row">
+    <dl class="dl-horizontal">
+        <dt>Описание</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>Вес</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Weight) кг
+        </dd>
+        <dt>Размеры</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Length)*@Html.DisplayFor(model => model.Width)*@Html.DisplayFor(model => model.Height) см
+        </dd>
+        <dt>Количество грузовых мест</dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfPackages) шт
+        </dd>
+        <dt>Объявленная стоимость</dt>
+        <dd>
+            @Html.DisplayFor(model => model.DeclaredValue) руб
+        </dd>
+        <dt>Тариф</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tariff.Name)
+        </dd>
+        <dt>Стоимость</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cost) руб
+        </dd>
+    </dl>
+</div>
+<div class="row">
+    <table class="table">
+        <tr>
+            <th>Дата</th>
+            <th>ПВЗ</th>
+            <th>Статус</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.Records.OrderBy(a => a.DateAndTime))
+        {
+            <tr>
+                <td>
+                    @item.DateAndTime.ToString()
+                </td>
+                @{ string centre = "";
+                    if (@item.DistributionCentre != null)
+                    {
+                        centre = item.DistributionCentre.City.Region.Country.NameCountry + ", " + item.DistributionCentre.City.Region.NameRegion + ", "
+                                                 + item.DistributionCentre.City.NameCity + ", " + item.DistributionCentre.Address;
+                    }
+                }
+                <td>@centre</td>
+                <td>
+                    @item.Status
+                </td>
+                <td>
+                    @Html.ActionLink("Удалить", "DeleteRecord", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+@using (Html.BeginForm("AddRecord", "Admin"))
+{
+    <h4>Обновить информацию об отслеживании</h4>
+    @Html.Hidden("PackageId", Model.Id)
+    <div class="form-group">
+        @Html.Label("Статус", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Status", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("ПВЗ", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("CentreId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.TariffId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Добавить запись" class="btn btn-default" />
+        </div>
+    </div>
+}
+<hr />

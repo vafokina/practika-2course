@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Импорт данных";
+}
+
+<h4>Импорт данных из xml файла</h4>
+<div>
+    @using (Html.BeginForm("Import", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <span>Выбрать файл:</span>
+        <input type="file" name="postedFile" />
+        <hr />
+        <input type="submit" value="Загрузить" />
+        <br />
+    }
+</div>

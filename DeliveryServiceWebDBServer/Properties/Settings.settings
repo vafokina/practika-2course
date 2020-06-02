@@ -1,0 +1,32 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DeliveryServiceWebDBServer.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Statuses" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;Зарегистрировано&lt;/string&gt;
+  &lt;string&gt;Ожидается отправка&lt;/string&gt;
+  &lt;string&gt;Отправлено в пункт назначения&lt;/string&gt;
+  &lt;string&gt;Прибыло в пункт назначения&lt;/string&gt;
+  &lt;string&gt;Доставлено в пункт выдачи&lt;/string&gt;
+  &lt;string&gt;Передано курьеру&lt;/string&gt;
+  &lt;string&gt;Доставлено&lt;/string&gt;
+  &lt;string&gt;Будет возвращено отправителю&lt;/string&gt;
+  &lt;string&gt;Прибыло для возврата отправителю&lt;/string&gt;
+  &lt;string&gt;Возвращено отправителю&lt;/string&gt;
+  &lt;string&gt;Отменено&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="DaysForBack" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="Descriptions" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;Товары народного потребления (без ГСМ и АКБ)&lt;/string&gt;
+  &lt;string&gt;Опасные грузы&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

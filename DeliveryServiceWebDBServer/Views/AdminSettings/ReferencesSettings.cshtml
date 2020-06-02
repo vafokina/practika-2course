@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DeliveryServiceWebDBServer.Models.AccountReference>
+@using DeliveryServiceWebDBServer.Models
+
+@{
+    ViewBag.Title = "Настройки";
+}
+@Html.Partial("~/Views/AdminSettings/_SettingsMenu.cshtml")
+
+
+<h4>Связи аккаунтов пользователей системы</h4>
+<form class="navbar-form navbar-left" action="~/AdminSettings/CreateReference">
+    <button class="btn btn-default">Добавить</button>
+</form>
+
+@if (Model.Count() == 0)
+{<p>
+        Нет данных
+    </p>}
+else
+{
+    <table class="table">
+        <tr>
+            <th>Логин</th>
+            <th>Отправитель</th>
+            <th>Пункт выдачи</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            string str1 = "", str2 = "";
+            if (item.PersonId != null)
+            {
+                Person p = item.Person;
+                str1 = Helper.GetPersonString(p);
+            }
+            if (item.CentreId != null)
+            {
+                DistributionCentre p = item.DistributionCentre;
+                str2 = Helper.GetCentreString(p);
+            }
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Login)
+                </td>
+                <td>@str1</td>
+                <td>@str2</td>
+                <td>
+                    @Html.ActionLink("Удалить", "DeleteReference", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+}

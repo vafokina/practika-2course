@@ -1,0 +1,18 @@
+﻿@model DeliveryServiceWebDBServer.Models.Constructor
+@using DeliveryServiceWebDBServer.Models
+
+@using (Html.BeginForm("Index2", "Constructor"))
+{
+    @Html.HiddenFor(model => model.Attributes)
+    @Html.HiddenFor(model => model.SelectedTables)
+    <fieldset>
+        <legend>Выберите атрибуты:</legend>
+        @foreach (string t in Model.Attributes)
+        {
+            <input type="checkbox" name="SelectedAttributes" value="@Html.Encode(t)">@t<br>
+        }
+
+        <br>
+        <input type="submit" value="Далее" />
+    </fieldset>
+}

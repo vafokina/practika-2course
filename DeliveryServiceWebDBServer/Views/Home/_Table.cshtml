@@ -1,0 +1,122 @@
+﻿
+@using DeliveryServiceWebDBServer.Models
+@model DeliveryServiceWebDBServer.Models.PackageListViewModel
+
+<table class="table">
+    <tr>
+        <th>Номер</th>
+        <th>Отправитель</th>
+        <th>Получатель</th>
+        <th>Описание</th>
+        <th>Вес, размеры, количество грузовых мест</th>
+        @*<th>Объявленная стоимость</th>*@
+        <th>Тариф, стоимость</th>
+        <th>Статус</th>
+        @*<th></th>*@
+    </tr>
+
+    @foreach (var item in Model.Packages)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Id.ToString(), "Details", new { id = item.Id }, new { @class = "package-link" })
+            </td>
+            <td>
+                @{
+                    string str1 = "";
+                    if (item.PersonFrom.Name != null) { str1 += item.PersonFrom.Name + " "; }
+                    if (item.PersonFrom.MiddleName != null) { str1 += item.PersonFrom.MiddleName + " "; }
+                    if (item.PersonFrom.Surname != null) { str1 += item.PersonFrom.Surname + ", "; }
+                    if (item.PersonFrom.Company != null) { str1 += item.PersonFrom.Company + ", "; }
+                    string str2 = "";
+                    if (item.PersonFrom.CityId != null)
+                    {
+                        if (item.PersonFrom.City.Region.Country.NameCountry != null) { str2 += item.PersonFrom.City.Region.Country.NameCountry + ", "; }
+                        if (item.PersonFrom.City.Region.NameRegion != null) { str2 += item.PersonFrom.City.Region.NameRegion + ", "; }
+                        if (item.PersonFrom.City.NameCity != null) { str2 += item.PersonFrom.City.NameCity + ", "; }
+                        if (item.PersonFrom.Address != null) { str2 += item.PersonFrom.Address + " "; }
+                    }
+                    if (item.PersonFrom.CentreId != null)
+                    {
+                        str2 += "Пункт выдачи: ";
+                        if (item.PersonFrom.DistributionCentre.City.Region.Country != null) { str2 += item.PersonFrom.DistributionCentre.City.Region.Country.NameCountry + ", "; }
+                        if (item.PersonFrom.DistributionCentre.City.Region != null) { str2 += item.PersonFrom.DistributionCentre.City.Region.NameRegion + ", "; }
+                        if (item.PersonFrom.DistributionCentre.City != null) { str2 += item.PersonFrom.DistributionCentre.City.NameCity + ", "; }
+                        if (item.PersonFrom.DistributionCentre != null) { str2 += item.PersonFrom.DistributionCentre.Address + " "; }
+                    }
+                }
+                <p>@str1</p><p>@str2</p>
+            </td>
+            <td>
+                @{
+                    str1 = "";
+                    if (item.PersonTo.Name != null) { str1 += item.PersonTo.Name + " "; }
+                    if (item.PersonTo.MiddleName != null) { str1 += item.PersonTo.MiddleName + " "; }
+                    if (item.PersonTo.Surname != null) { str1 += item.PersonTo.Surname + ", "; }
+                    if (item.PersonTo.Company != null) { str1 += item.PersonTo.Company + ", "; }
+                    str2 = "";
+                    if (item.PersonTo.CityId != null)
+                    {
+                        if (item.PersonTo.City.Region.Country.NameCountry != null) { str2 += item.PersonTo.City.Region.Country.NameCountry + ", "; }
+                        if (item.PersonTo.City.Region.NameRegion != null) { str2 += item.PersonTo.City.Region.NameRegion + ", "; }
+                        if (item.PersonTo.City.NameCity != null) { str2 += item.PersonTo.City.NameCity + ", "; }
+                        if (item.PersonTo.Address != null) { str2 += item.PersonTo.Address + " "; }
+                    }
+                    if (item.PersonTo.CentreId != null)
+                    {
+                        str2 += "Пункт выдачи: ";
+                        if (item.PersonTo.DistributionCentre.City.Region.Country != null) { str2 += item.PersonTo.DistributionCentre.City.Region.Country.NameCountry + ", "; }
+                        if (item.PersonTo.DistributionCentre.City.Region != null) { str2 += item.PersonTo.DistributionCentre.City.Region.NameRegion + ", "; }
+                        if (item.PersonTo.DistributionCentre.City != null) { str2 += item.PersonTo.DistributionCentre.City.NameCity + ", "; }
+                        if (item.PersonTo.DistributionCentre != null) { str2 += item.PersonTo.DistributionCentre.Address + " "; }
+                    }
+
+                }
+                <p>@str1</p><p>@str2</p>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <p>@item.Weight кг,</p>
+                <p>@item.Length*@item.Width*@item.Height см,</p>
+                <p>@item.NumberOfPackages шт</p>
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.DeclaredValue)
+                </td>*@
+            @{
+                if (item.Tariff != null)
+                {
+                    <td>
+                        <p>@item.Tariff.Name,</p><p>@item.Cost</p>
+                    </td>
+                }
+                else
+                {
+                    <td>-</td>
+                }
+            }
+            <td>
+                @{
+                    if (item.Records != null && item.Records.Count > 0)
+                    {
+                        var maxDate = item.Records.Select(a => a.DateAndTime).Max();
+                        @Html.DisplayFor(modelItem => item.Records.Where(a => a.DateAndTime == maxDate).Single().Status)
+                    }
+                }
+            </td>
+            @*<td>
+                    @Html.ActionLink("Открыть", "Details", new { id = item.Id })
+                </td>*@
+        </tr>
+    }
+
+</table>
+
+@{
+    if (Model.Packages.Count() == 0)
+    {<p>
+            Нет отправлений
+        </p>}
+}

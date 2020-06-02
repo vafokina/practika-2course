@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<catalog>
+  <add weight="" width="" height="" length="" number="" value="" description="" tariff="">
+    <from name = "name" midname ="midname" surname = "surname" company ="company"
+         country ="" region="" city="" centre="" address="" phone="" mail="" 
+          informingSMS ="true/false" informingMail ="true/false" />
+    <to name = "name" midname ="midname" surname = "surname" company ="company"
+         country ="" region="" city="" centre="" address="" phone="" mail="" 
+        informingSMS ="true/false" informingMail ="true/false" />
+  </add>
+</catalog>

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<DeliveryServiceWebDBServer.Models.User>
+@using DeliveryServiceWebDBServer.Models
+
+@{
+    ViewBag.Title = "Настройки";
+}
+@Html.Partial("~/Views/AdminSettings/_SettingsMenu.cshtml")
+
+
+<h4>Аккаунты пользователей системы</h4>
+<form class="navbar-form navbar-left" action="~/AdminSettings/CreateUser">
+    <button class="btn btn-default">Добавить</button>
+</form>
+
+@if (Model.Count() == 0)
+{<p>
+        Нет созданных аккаунтов
+    </p>}
+else
+{
+    <table class="table">
+        <tr>
+            <th>Логин</th>
+            <th>Администратор</th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Login)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Admin)
+                </td>
+                <td>
+                    @Html.ActionLink("Изменить", "EditUser", new { id = item.Id })
+                </td>
+                <td>
+                    @Html.ActionLink("Удалить", "DeleteUser", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+}
+

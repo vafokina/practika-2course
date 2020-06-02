@@ -1,0 +1,19 @@
+﻿@if (null != TempData["alertMessage"])
+{
+    <script type="text/javascript">
+       alert("@TempData["alertMessage"]");
+    </script>
+}
+<div class="container">
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li>@Html.ActionLink("Настройки веб-приложения", "Index", "AdminSettings")</li>
+            <li>@Html.ActionLink("Аккаунты", "AccountsSettings", "AdminSettings")</li>
+            <li>@Html.ActionLink("Связи аккаунтов", "ReferencesSettings", "AdminSettings")</li>
+            <li>@Html.ActionLink("Пункты выдачи", "CentresSettings", "AdminSettings")</li>
+            <li>@Html.ActionLink("Покрытие регионов", "CitiesSettings", "AdminSettings")</li>
+            <li>@Html.ActionLink("Тарифные планы", "TariffsSettings", "AdminSettings")</li>
+        </ul>
+    </div>
+</div>
+<hr />

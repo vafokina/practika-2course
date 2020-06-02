@@ -1,0 +1,92 @@
+﻿@using DeliveryServiceWebDBServer.Models
+@model CitiesRegionsCountriesModel
+
+@{
+    ViewBag.Title = "Настройки";
+}
+@Html.Partial("~/Views/AdminSettings/_SettingsMenu.cshtml")
+
+
+<h4>Города</h4>
+<form class="navbar-form navbar-left" action="~/AdminSettings/CreateCity">
+    <button class="btn btn-default">Добавить</button>
+</form>
+<table class="table">
+    <tr>
+        <th>Город</th>
+        <th>Регион</th>
+        <th>Страна</th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (City item in Model.Cities)
+    {
+        <tr>
+            <td>@item.NameCity</td>
+            <td>@item.Region.NameRegion</td>
+            <td>@item.Region.Country.NameCountry</td>
+            <td>
+                @Html.ActionLink("Изменить", "EditCity", new { id = item.Id })
+            </td>
+            <td>
+                @Html.ActionLink("Удалить", "DeleteCity", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+<hr />
+<h4>Регионы</h4>
+<form class="navbar-form navbar-left" action="~/AdminSettings/CreateRegion">
+    <button class="btn btn-default">Добавить</button>
+</form>
+<table class="table">
+    <tr>
+        <th>Регион</th>
+        <th>Страна</th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (Region item in Model.Regions)
+    {
+        <tr>
+            <td>@item.NameRegion</td>
+            <td>@item.Country.NameCountry</td>
+            <td>
+                @Html.ActionLink("Изменить", "EditRegion", new { id = item.Id })
+            </td>
+            <td>
+                @Html.ActionLink("Удалить", "DeleteRegion", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+<hr />
+<h4>Страны</h4>
+<form class="navbar-form navbar-left" action="~/AdminSettings/CreateCountry">
+    <button class="btn btn-default">Добавить</button>
+</form>
+<table class="table">
+    <tr>
+        <th>Страна</th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (Country item in Model.Countries)
+    {
+        <tr>
+            <td>@item.NameCountry</td>
+            <td>
+                @Html.ActionLink("Изменить", "EditCountry", new { id = item.Id })
+            </td>
+            <td>
+                @Html.ActionLink("Удалить", "DeleteCountry", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

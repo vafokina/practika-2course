@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ModelDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelDBStoreContainer">
+    <EntitySet Name="Users" EntityType="ModelDB.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AccountReferences" EntityType="ModelDB.Store.AccountReferences" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserPackages" EntityType="ModelDB.Store.UserPackages" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Persons" EntityType="ModelDB.Store.Persons" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Packages" EntityType="ModelDB.Store.Packages" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tariffs" EntityType="ModelDB.Store.Tariffs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Records" EntityType="ModelDB.Store.Records" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DistributionCentres" EntityType="ModelDB.Store.DistributionCentres" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Cities" EntityType="ModelDB.Store.Cities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Regions" EntityType="ModelDB.Store.Regions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Countries" EntityType="ModelDB.Store.Countries" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UsersAccountReferences" Association="ModelDB.Store.UsersAccountReferences">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="AccountReferences" EntitySet="AccountReferences" />
+    </AssociationSet>
+    <AssociationSet Name="PersonsAccountReferences" Association="ModelDB.Store.PersonsAccountReferences">
+      <End Role="Persons" EntitySet="Persons" />
+      <End Role="AccountReferences" EntitySet="AccountReferences" />
+    </AssociationSet>
+    <AssociationSet Name="DistributionCentresAccountReferences" Association="ModelDB.Store.DistributionCentresAccountReferences">
+      <End Role="DistributionCentres" EntitySet="DistributionCentres" />
+      <End Role="AccountReferences" EntitySet="AccountReferences" />
+    </AssociationSet>
+    <AssociationSet Name="UsersUserPackages" Association="ModelDB.Store.UsersUserPackages">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserPackages" EntitySet="UserPackages" />
+    </AssociationSet>
+    <AssociationSet Name="PackagesUserPackages" Association="ModelDB.Store.PackagesUserPackages">
+      <End Role="Packages" EntitySet="Packages" />
+      <End Role="UserPackages" EntitySet="UserPackages" />
+    </AssociationSet>
+    <AssociationSet Name="CountriesRegions" Association="ModelDB.Store.CountriesRegions">
+      <End Role="Countries" EntitySet="Countries" />
+      <End Role="Regions" EntitySet="Regions" />
+    </AssociationSet>
+    <AssociationSet Name="RegionsCities" Association="ModelDB.Store.RegionsCities">
+      <End Role="Regions" EntitySet="Regions" />
+      <End Role="Cities" EntitySet="Cities" />
+    </AssociationSet>
+    <AssociationSet Name="DistributionCentresCities" Association="ModelDB.Store.DistributionCentresCities">
+      <End Role="DistributionCentres" EntitySet="DistributionCentres" />
+      <End Role="Cities" EntitySet="Cities" />
+    </AssociationSet>
+    <AssociationSet Name="DistributionCentresPersons" Association="ModelDB.Store.DistributionCentresPersons">
+      <End Role="DistributionCentres" EntitySet="DistributionCentres" />
+      <End Role="Persons" EntitySet="Persons" />
+    </AssociationSet>
+    <AssociationSet Name="CitiesPersons" Association="ModelDB.Store.CitiesPersons">
+      <End Role="Cities" EntitySet="Cities" />
+      <End Role="Persons" EntitySet="Persons" />
+    </AssociationSet>
+    <AssociationSet Name="PersonsPackages" Association="ModelDB.Store.PersonsPackages">
+      <End Role="Persons" EntitySet="Persons" />
+      <End Role="Packages" EntitySet="Packages" />
+    </AssociationSet>
+    <AssociationSet Name="PersonsPackages1" Association="ModelDB.Store.PersonsPackages1">
+      <End Role="Persons" EntitySet="Persons" />
+      <End Role="Packages" EntitySet="Packages" />
+    </AssociationSet>
+    <AssociationSet Name="TariffsPackages" Association="ModelDB.Store.TariffsPackages">
+      <End Role="Tariffs" EntitySet="Tariffs" />
+      <End Role="Packages" EntitySet="Packages" />
+    </AssociationSet>
+    <AssociationSet Name="PackagesRecords" Association="ModelDB.Store.PackagesRecords">
+      <End Role="Packages" EntitySet="Packages" />
+      <End Role="Records" EntitySet="Records" />
+    </AssociationSet>
+    <AssociationSet Name="DistributionCentresRecords" Association="ModelDB.Store.DistributionCentresRecords">
+      <End Role="DistributionCentres" EntitySet="DistributionCentres" />
+      <End Role="Records" EntitySet="Records" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Admin" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AccountReferences">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="PersonId" Type="int" Nullable="true" />
+    <Property Name="CentreId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="UserPackages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="PackageId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Persons">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="MiddleName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Surname" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Company" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Mail" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Index" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CityId" Type="int" Nullable="true" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CentreId" Type="int" Nullable="true" />
+    <Property Name="InformingSMS" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="InformingMail" Type="bit" Nullable="false" DefaultValue="false" />
+  </EntityType>
+  <EntityType Name="Packages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PersonIdFrom" Type="int" StoreGeneratedPattern="None" Nullable="false" />
+    <Property Name="PersonIdTo" Type="int" StoreGeneratedPattern="None" Nullable="false" />
+    <Property Name="TariffId" Type="int" StoreGeneratedPattern="Identity" Nullable="true" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Weight" Type="float" Nullable="true" />
+    <Property Name="Length" Type="float" Nullable="true" />
+    <Property Name="Width" Type="float" Nullable="true" />
+    <Property Name="Height" Type="float" Nullable="true" />
+    <Property Name="NumberOfPackages" Type="int" Nullable="false" DefaultValue="1" />
+    <Property Name="Cost" Type="float" Nullable="true" />
+    <Property Name="DeclaredValue" Type="float" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Tariffs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Formula" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Records">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PackageId" Type="int" Nullable="false" />
+    <Property Name="CentreId" Type="int" Nullable="true" />
+    <Property Name="DateAndTime" Type="datetime" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DistributionCentres">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Index" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CityId" Type="int" Nullable="false" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Cities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NameCity" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RegionId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Regions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NameRegion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CountryId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Countries">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NameCountry" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="UsersAccountReferences">
+    <End Role="Users" Type="ModelDB.Store.Users" Multiplicity="1" />
+    <End Role="AccountReferences" Type="ModelDB.Store.AccountReferences" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccountReferences">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PersonsAccountReferences">
+    <End Role="Persons" Type="ModelDB.Store.Persons" Multiplicity="0..1" />
+    <End Role="AccountReferences" Type="ModelDB.Store.AccountReferences" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persons">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccountReferences">
+        <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DistributionCentresAccountReferences">
+    <End Role="DistributionCentres" Type="ModelDB.Store.DistributionCentres" Multiplicity="0..1" />
+    <End Role="AccountReferences" Type="ModelDB.Store.AccountReferences" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DistributionCentres">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AccountReferences">
+        <PropertyRef Name="CentreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UsersUserPackages">
+    <End Role="Users" Type="ModelDB.Store.Users" Multiplicity="1" />
+    <End Role="UserPackages" Type="ModelDB.Store.UserPackages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserPackages">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PackagesUserPackages">
+    <End Role="Packages" Type="ModelDB.Store.Packages" Multiplicity="1" />
+    <End Role="UserPackages" Type="ModelDB.Store.UserPackages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Packages">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserPackages">
+        <PropertyRef Name="PackageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CountriesRegions">
+    <End Role="Countries" Type="ModelDB.Store.Countries" Multiplicity="1" />
+    <End Role="Regions" Type="ModelDB.Store.Regions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Countries">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Regions">
+        <PropertyRef Name="CountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RegionsCities">
+    <End Role="Regions" Type="ModelDB.Store.Regions" Multiplicity="1" />
+    <End Role="Cities" Type="ModelDB.Store.Cities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Regions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cities">
+        <PropertyRef Name="RegionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DistributionCentresCities">
+    <End Role="DistributionCentres" Type="ModelDB.Store.DistributionCentres" Multiplicity="*" />
+    <End Role="Cities" Type="ModelDB.Store.Cities" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Cities">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DistributionCentres">
+        <PropertyRef Name="CityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DistributionCentresPersons">
+    <End Role="DistributionCentres" Type="ModelDB.Store.DistributionCentres" Multiplicity="0..1" />
+    <End Role="Persons" Type="ModelDB.Store.Persons" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DistributionCentres">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Persons">
+        <PropertyRef Name="CentreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CitiesPersons">
+    <End Role="Cities" Type="ModelDB.Store.Cities" Multiplicity="0..1" />
+    <End Role="Persons" Type="ModelDB.Store.Persons" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cities">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Persons">
+        <PropertyRef Name="CityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PersonsPackages">
+    <End Role="Persons" Type="ModelDB.Store.Persons" Multiplicity="1" />
+    <End Role="Packages" Type="ModelDB.Store.Packages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persons">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Packages">
+        <PropertyRef Name="PersonIdFrom" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PersonsPackages1">
+    <End Role="Persons" Type="ModelDB.Store.Persons" Multiplicity="1" />
+    <End Role="Packages" Type="ModelDB.Store.Packages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persons">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Packages">
+        <PropertyRef Name="PersonIdTo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TariffsPackages">
+    <End Role="Tariffs" Type="ModelDB.Store.Tariffs" Multiplicity="0..1" />
+    <End Role="Packages" Type="ModelDB.Store.Packages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tariffs">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Packages">
+        <PropertyRef Name="TariffId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PackagesRecords">
+    <End Role="Packages" Type="ModelDB.Store.Packages" Multiplicity="1" />
+    <End Role="Records" Type="ModelDB.Store.Records" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Packages">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Records">
+        <PropertyRef Name="PackageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DistributionCentresRecords">
+    <End Role="DistributionCentres" Type="ModelDB.Store.DistributionCentres" Multiplicity="0..1" />
+    <End Role="Records" Type="ModelDB.Store.Records" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DistributionCentres">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Records">
+        <PropertyRef Name="CentreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

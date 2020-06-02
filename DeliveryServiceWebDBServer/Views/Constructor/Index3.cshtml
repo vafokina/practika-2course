@@ -1,0 +1,21 @@
+﻿@model DeliveryServiceWebDBServer.Models.Constructor
+@using DeliveryServiceWebDBServer.Models
+
+
+@using (Html.BeginForm("Index3", "Constructor"))
+{
+    @Html.HiddenFor(model => model.Attributes)
+    @Html.HiddenFor(model => model.SelectedTables)
+    @Html.HiddenFor(model => model.SelectedAttributes)
+    <fieldset>
+        <legend>Выберите связи:</legend>
+        @foreach (string t in Model.References)
+        {
+            <input type="checkbox" name="SelectedReferences">@t<br>
+        }
+
+        <br>
+        <input type="submit" value="Далее" />
+    </fieldset>
+}
+
