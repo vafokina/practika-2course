@@ -66,5 +66,14 @@ namespace DeliveryServiceWebDBServer.Properties {
                 return ((global::System.Collections.Specialized.StringCollection)(this["Descriptions"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CompanyName {
+            get {
+                return ((string)(this["CompanyName"]));
+            }
+        }
     }
 }

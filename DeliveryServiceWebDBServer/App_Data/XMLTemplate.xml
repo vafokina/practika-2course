@@ -1,11 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <catalog>
+  
+  <!--Шаблон для службы доставки: заполняются данные о грузе-->
   <add weight="" width="" height="" length="" number="" value="" description="" tariff="">
-    <from name = "name" midname ="midname" surname = "surname" company ="company"
-         country ="" region="" city="" centre="" address="" phone="" mail="" 
+     <!--city: вводится название города, если оно трактуется однозначно,
+     или полное название города в формате "город, регион, страна"-->
+    <from name = "" midname ="" surname = "" company =""
+         city="" idCentre="" address="" phone="" mail="" 
           informingSMS ="true/false" informingMail ="true/false" />
-    <to name = "name" midname ="midname" surname = "surname" company ="company"
-         country ="" region="" city="" centre="" address="" phone="" mail="" 
+    <to name = "" midname ="" surname = "" company =""
+        city="" centre="" address="" phone="" mail="" 
         informingSMS ="true/false" informingMail ="true/false" />
   </add>
+
+  <!--Шаблон для интернет магазина: поля с данными о грузе пропускаются-->
+  <add>
+    <!--city: вводится название города, если оно трактуется однозначно,
+     или полное название города в формате "город, регион, страна"-->
+    <from name = "" midname ="" surname = "" company =""
+         city="" idCentre="" address="" phone="" mail=""
+          informingSMS ="true/false" informingMail ="true/false" />
+    <to name = "" midname ="" surname = "" company =""
+        city="" centre="" address="" phone="" mail=""
+        informingSMS ="true/false" informingMail ="true/false" />
+  </add>
+  
 </catalog>

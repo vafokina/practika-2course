@@ -2,16 +2,9 @@
 @using DeliveryServiceWebDBServer.Models
 
 @{
-    /**/
+        ViewBag.Title = "#" + Model.Id;
+}
 
-    ViewBag.Title = "#" + Model.Id;
-}
-@if (null != TempData["alertMessage"])
-{
-    <script type="text/javascript">
-       alert("@TempData["alertMessage"]");
-    </script>
-}
 
 <table>
     <tr>
@@ -21,6 +14,11 @@
         <td align="right" valign="middle" width=auto>
             <form class="navbar-form navbar-left" action="~/Home/ExportFile/@Model.Id">
                 <button class="btn btn-default">Скачать файл накладной</button>
+            </form>
+        </td>
+        <td align="right" valign="middle" width=auto>
+            <form class="navbar-form navbar-left" action="~/Admin/Edit/@Model.Id">
+                <button class="btn btn-default">Редактировать данные об отправлении</button>
             </form>
         </td>
     </tr>

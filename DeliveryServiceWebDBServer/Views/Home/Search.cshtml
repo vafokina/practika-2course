@@ -1,18 +1,28 @@
 ﻿@using DeliveryServiceWebDBServer.Models
 <div class="container">
     <h4>Поиск отправлений</h4>
-        @{
-            if (ViewBag.suitedPackages == null)
-            { <p>Отправления с таким номером не найдены</p> }
+    @{
+        if (ViewBag.suitedPackages == null)
+        { <p>Отправления с таким номером не найдены</p> }
         else
         {
             <p>Выберите необходимое для просмотра отправление:</p>
             <ul>
-                @foreach (int p in ViewBag.suitedPackages)
+                @if (User.IsInRole("admin"))
                 {
-                    <li>@Html.ActionLink(p.ToString(), "Details", "User", p, null)</li>}
+                    foreach (int p in ViewBag.suitedPackages)
+                    {
+                        <li>@Html.ActionLink(p.ToString(), "Details", "Admin", new { id = p }, null)</li>
+                    }
+                }
+                else
+                {
+                    foreach (int p in ViewBag.suitedPackages)
+                    {
+                        <li>@Html.ActionLink(p.ToString(), "Details", "User", new { id = p }, null)</li>
+                    }
                 }
             </ul>
         }
-        }
+    }
 </div>

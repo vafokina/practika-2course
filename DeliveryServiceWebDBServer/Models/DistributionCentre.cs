@@ -11,7 +11,8 @@ namespace DeliveryServiceWebDBServer.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class DistributionCentre
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,7 +25,9 @@ namespace DeliveryServiceWebDBServer.Models
     
         public int Id { get; set; }
         public string Index { get; set; }
+        [Required(ErrorMessage = "Это поле обязательно для заполнения.")]
         public int CityId { get; set; }
+        [Required(ErrorMessage = "Это поле обязательно для заполнения.")]
         public string Address { get; set; }
         public string Description { get; set; }
     

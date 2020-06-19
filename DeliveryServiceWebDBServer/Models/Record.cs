@@ -11,13 +11,15 @@ namespace DeliveryServiceWebDBServer.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Record
     {
         public int Id { get; set; }
         public int PackageId { get; set; }
         public Nullable<int> CentreId { get; set; }
         public System.DateTime DateAndTime { get; set; }
+        [Required(ErrorMessage = "Это поле обязательно для заполнения.")]
         public string Status { get; set; }
     
         public virtual Package Package { get; set; }

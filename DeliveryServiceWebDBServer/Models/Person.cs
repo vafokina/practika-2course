@@ -11,7 +11,8 @@ namespace DeliveryServiceWebDBServer.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Person
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -29,13 +30,17 @@ namespace DeliveryServiceWebDBServer.Models
         public string MiddleName { get; set; }
         public string Surname { get; set; }
         public string Company { get; set; }
+        [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
+        [DataType(DataType.EmailAddress)]
         public string Mail { get; set; }
         public string Index { get; set; }
         public Nullable<int> CityId { get; set; }
         public string Address { get; set; }
         public Nullable<int> CentreId { get; set; }
+        [Required(ErrorMessage = "Это поле обязательно для заполнения.")]
         public bool InformingSMS { get; set; }
+        [Required(ErrorMessage = "Это поле обязательно для заполнения.")]
         public bool InformingMail { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

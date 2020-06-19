@@ -136,7 +136,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="PersonIdFrom" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
     <Property Name="PersonIdTo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
-    <Property Name="TariffId" Type="Int32" Nullable="true" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TariffId" Type="Int32" Nullable="true" annotation:StoreGeneratedPattern="None" />
     <Property Name="Description" Type="String" Nullable="true" />
     <Property Name="Weight" Type="Double" Nullable="true" />
     <Property Name="Length" Type="Double" Nullable="true" />

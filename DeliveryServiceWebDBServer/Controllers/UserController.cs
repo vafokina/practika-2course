@@ -118,6 +118,14 @@ namespace DeliveryServiceWebDBServer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateStep1([Bind(Include = "Id,Name,MiddleName,Surname,Company,Phone,Mail,Index,CityId,Address,CentreId,InformingSMS,InformingMail")] Person person)
         {
+            if (!(person.Name != null && person.Surname != null || person.Company != null))
+                ModelState.AddModelError("", "Необходимо указать либо ФИО, либо название компании");
+            if (!(person.CityId != null && person.Address != null || person.CentreId != null))
+                ModelState.AddModelError("", "Необходимо либо выбрать пункт выдачи, либо указать адрес");
+            if (person.InformingMail && person.Mail == null)
+                ModelState.AddModelError("", "Для отправки уведомлений необходимо указать электронную почту");
+            if (person.InformingSMS && person.Phone == null)
+                ModelState.AddModelError("", "Для отправки уведомлений необходимо указать номер телефона");
             if (ModelState.IsValid)
             {
                 Person p = db.Persons.Add(person);
@@ -156,6 +164,14 @@ namespace DeliveryServiceWebDBServer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateStep2([Bind(Include = "FromId,Name,MiddleName,Surname,Company,Phone,Mail,Index,CityId,Address,CentreId,InformingSMS,InformingMail")] ToWithFromIdModel temp)
         {
+            if (!(temp.Name != null && temp.Surname != null || temp.Company != null))
+                ModelState.AddModelError("", "Необходимо указать либо ФИО, либо название компании");
+            if (!(temp.CityId != null && temp.Address != null || temp.CentreId != null))
+                ModelState.AddModelError("", "Необходимо либо выбрать пункт выдачи, либо указать адрес");
+            if (temp.InformingMail && temp.Mail == null)
+                ModelState.AddModelError("", "Для отправки уведомлений необходимо указать электронную почту");
+            if (temp.InformingSMS && temp.Phone == null)
+                ModelState.AddModelError("", "Для отправки уведомлений необходимо указать номер телефона");
             if (ModelState.IsValid)
             {
                 int fromId = temp.FromId;

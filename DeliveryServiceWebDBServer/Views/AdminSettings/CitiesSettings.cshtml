@@ -20,19 +20,22 @@
         <th></th>
     </tr>
 
-    @foreach (City item in Model.Cities)
+    @if (Model == null || Model.Cities.Count() != 0)
     {
-        <tr>
-            <td>@item.NameCity</td>
-            <td>@item.Region.NameRegion</td>
-            <td>@item.Region.Country.NameCountry</td>
-            <td>
-                @Html.ActionLink("Изменить", "EditCity", new { id = item.Id })
-            </td>
-            <td>
-                @Html.ActionLink("Удалить", "DeleteCity", new { id = item.Id })
-            </td>
-        </tr>
+        foreach (City item in Model.Cities)
+        {
+            <tr>
+                <td>@item.NameCity</td>
+                <td>@item.Region.NameRegion</td>
+                <td>@item.Region.Country.NameCountry</td>
+                <td>
+                    @Html.ActionLink("Изменить", "EditCity", new { id = item.Id })
+                </td>
+                <td>
+                    @Html.ActionLink("Удалить", "DeleteCity", new { id = item.Id })
+                </td>
+            </tr>
+        }
     }
 
 </table>
@@ -49,18 +52,21 @@
         <th></th>
     </tr>
 
-    @foreach (Region item in Model.Regions)
+    @if (Model == null || Model.Regions.Count() != 0)
     {
-        <tr>
-            <td>@item.NameRegion</td>
-            <td>@item.Country.NameCountry</td>
-            <td>
-                @Html.ActionLink("Изменить", "EditRegion", new { id = item.Id })
-            </td>
-            <td>
-                @Html.ActionLink("Удалить", "DeleteRegion", new { id = item.Id })
-            </td>
-        </tr>
+        foreach (Region item in Model.Regions)
+        {
+            <tr>
+                <td>@item.NameRegion</td>
+                <td>@item.Country.NameCountry</td>
+                <td>
+                    @Html.ActionLink("Изменить", "EditRegion", new { id = item.Id })
+                </td>
+                <td>
+                    @Html.ActionLink("Удалить", "DeleteRegion", new { id = item.Id })
+                </td>
+            </tr>
+        }
     }
 
 </table>
@@ -76,17 +82,20 @@
         <th></th>
     </tr>
 
-    @foreach (Country item in Model.Countries)
+    @if (Model == null || Model.Countries.Count() != 0)
     {
-        <tr>
-            <td>@item.NameCountry</td>
-            <td>
-                @Html.ActionLink("Изменить", "EditCountry", new { id = item.Id })
-            </td>
-            <td>
-                @Html.ActionLink("Удалить", "DeleteCountry", new { id = item.Id })
-            </td>
-        </tr>
+        foreach (Country item in Model.Countries)
+        {
+            <tr>
+                <td>@item.NameCountry</td>
+                <td>
+                    @Html.ActionLink("Изменить", "EditCountry", new { id = item.Id })
+                </td>
+                <td>
+                    @Html.ActionLink("Удалить", "DeleteCountry", new { id = item.Id })
+                </td>
+            </tr>
+        }
     }
 
 </table>

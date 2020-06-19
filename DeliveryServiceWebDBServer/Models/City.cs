@@ -11,7 +11,8 @@ namespace DeliveryServiceWebDBServer.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class City
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,7 +23,9 @@ namespace DeliveryServiceWebDBServer.Models
         }
     
         public int Id { get; set; }
+        [Required(ErrorMessage = "Это поле обязательно для заполнения.")]
         public string NameCity { get; set; }
+        [Required(ErrorMessage = "Это поле обязательно для заполнения.")]
         public int RegionId { get; set; }
     
         public virtual Region Region { get; set; }

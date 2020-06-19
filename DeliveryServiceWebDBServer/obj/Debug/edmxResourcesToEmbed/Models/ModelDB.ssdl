@@ -124,7 +124,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PersonIdFrom" Type="int" StoreGeneratedPattern="None" Nullable="false" />
     <Property Name="PersonIdTo" Type="int" StoreGeneratedPattern="None" Nullable="false" />
-    <Property Name="TariffId" Type="int" StoreGeneratedPattern="Identity" Nullable="true" />
+    <Property Name="TariffId" Type="int" StoreGeneratedPattern="None" Nullable="true" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Weight" Type="float" Nullable="true" />
     <Property Name="Length" Type="float" Nullable="true" />

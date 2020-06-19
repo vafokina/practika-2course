@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
+using System.Globalization;
 
 namespace DeliveryServiceWebDBServer.Models
 {
@@ -93,6 +96,38 @@ namespace DeliveryServiceWebDBServer.Models
             string str2 = "";
             str2 = p.Address + ", " + p.City.NameCity + ", " + p.City.Region.NameRegion + ", " + p.City.Region.Country.NameCountry;
             return str2;
+        }
+        public static string GetCityString(City p)
+        {
+            string str2 = "";
+            str2 =  p.NameCity + ", " + p.Region.NameRegion + ", " + p.Region.Country.NameCountry;
+            return str2;
+        }
+
+        public static double? EvaluateCost(int id, double weight, double height, double length, double width, int number = 1)
+        {
+            double? cost = -1;
+            using (ModelDBContainer db = new ModelDBContainer())
+            {
+                try
+                {
+                    string formula = db.Tariffs.Find(id).Formula;
+                    NumberFormatInfo format = new NumberFormatInfo();
+                    format.NumberDecimalSeparator = ".";
+                    formula = formula.Replace("weight", weight.ToString(format));
+                    formula = formula.Replace("height", height.ToString(format));
+                    formula = formula.Replace("length", length.ToString(format));
+                    formula = formula.Replace("width", width.ToString(format));
+                    formula = formula.Replace("number", number.ToString());
+                    var options = ScriptOptions.Default.WithImports("System.Math");
+                    cost = CSharpScript.EvaluateAsync<double>(formula, options).Result;
+                }
+                catch(Exception)
+                {
+                    cost = null;
+                }
+            }
+            return cost;
         }
     }
 }

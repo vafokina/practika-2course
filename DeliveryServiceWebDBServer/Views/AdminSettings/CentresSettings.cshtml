@@ -45,10 +45,10 @@ else
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.ActionLink("Изменить", "Edit", new { id = item.Id })
+                    @Html.ActionLink("Изменить", "EditCentre", new { id = item.Id })
                 </td>
                 <td>
-                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Удалить", "DeleteCentre", new { id = item.Id })
                 </td>
             </tr>
         }

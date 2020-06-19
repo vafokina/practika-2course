@@ -1,21 +1,38 @@
 ﻿@model DeliveryServiceWebDBServer.Models.Constructor
 @using DeliveryServiceWebDBServer.Models
 
+@{
 
-@using (Html.BeginForm("Index3", "Constructor"))
-{
-    @Html.HiddenFor(model => model.Attributes)
-    @Html.HiddenFor(model => model.SelectedTables)
-    @Html.HiddenFor(model => model.SelectedAttributes)
-    <fieldset>
-        <legend>Выберите связи:</legend>
-        @foreach (string t in Model.References)
-        {
-            <input type="checkbox" name="SelectedReferences">@t<br>
-        }
-
-        <br>
-        <input type="submit" value="Далее" />
-    </fieldset>
+    ViewBag.Title = "Расширенный поиск";
 }
 
+
+<div class="panel panel-default tabs">
+    <ul class="nav nav-tabs" role="tablist">
+        <li><a href="~/Admin/Index">Работа с данными</a></li>
+        <li class="active"><a href="~/Constructor/Index" role="tab" data-toggle="tab">Расширенный поиск</a></li>
+    </ul>
+    <div class="panel-body tab-content">
+        <div class="tab-pane" id="tab-first">  </div>
+        <div class="tab-pane active" id="tab-second">
+            @using (Html.BeginForm("Index3", "Constructor"))
+            {
+                <fieldset>
+                    @Html.HiddenFor(model => model.Attributes)
+                    @Html.HiddenFor(model => model.SelectedTables)
+                    @Html.HiddenFor(model => model.SelectedAttributes)
+                    <legend>Выберите связи:</legend>
+                    @foreach (string t in Model.References)
+                    {
+                        <input type="checkbox" name="SelectedReferences">@t<br>
+                    }
+
+                    <br>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <input type="submit" class="btn btn-default" value="Далее" />
+                </fieldset>
+            }
+
+        </div>
+    </div>
+</div>

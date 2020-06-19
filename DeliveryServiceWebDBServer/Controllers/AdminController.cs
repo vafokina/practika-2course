@@ -10,7 +10,7 @@ using DeliveryServiceWebDBServer.Models;
 
 namespace DeliveryServiceWebDBServer.Controllers
 {
-    [Authorize(Roles ="admin")]
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private ModelDBContainer db = new ModelDBContainer();
@@ -44,7 +44,7 @@ namespace DeliveryServiceWebDBServer.Controllers
             DistributionCentre centre = db.Users.FirstOrDefault(a => a.Login == User.Identity.Name).AccountReferences.FirstOrDefault()?.DistributionCentre;
             List<Package> suitablePackages = GetSuitablePackages(Statuses[0], centre);
             PackageListViewModel list = new PackageListViewModel(suitablePackages, "Зарегистрированные", centre);
-            return View("Index",list);
+            return View("Index", list);
         }
         public ActionResult Category2()
         {
@@ -150,12 +150,13 @@ namespace DeliveryServiceWebDBServer.Controllers
             if (ids.Count() == 0)
             {
                 TempData["alertMessage"] = "Отправления с таким номером не найдены";
-                return RedirectToAction("Index", "User");
+                return RedirectToAction("Index", "Admin");
             }
             else if (ids.Count() == 1) return RedirectToAction("Details", "Admin", new { id = ids.First() });
             ViewBag.suitedPackages = ids;
             return View("~/Views/Home/Search.cshtml");
         }
+       
 
         // GET: Admin/Details/5
         public ActionResult Details(int? id)
@@ -206,35 +207,7 @@ namespace DeliveryServiceWebDBServer.Controllers
             return RedirectToAction("Details", new { id = PackageId });
         }
 
-        // GET: Admin/Create
-        public ActionResult Create()
-        {
-            ViewBag.PersonIdFrom = new SelectList(db.Persons, "Id", "Name");
-            ViewBag.PersonIdTo = new SelectList(db.Persons, "Id", "Name");
-            ViewBag.TariffId = new SelectList(db.Tariffs, "Id", "Name");
-            return View();
-        }
-
-        // POST: Admin/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
-        // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,PersonIdFrom,PersonIdTo,TariffId,Description,Weight,Length,Width,Height,NumberOfPackages,Cost,DeclaredValue")] Package package)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Packages.Add(package);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.PersonIdFrom = new SelectList(db.Persons, "Id", "Name", package.PersonIdFrom);
-            ViewBag.PersonIdTo = new SelectList(db.Persons, "Id", "Name", package.PersonIdTo);
-            ViewBag.TariffId = new SelectList(db.Tariffs, "Id", "Name", package.TariffId);
-            return View(package);
-        }
-        private void InitSelectLists()
+        private void InitSelectLists(Package package = null)
         {
             List<IdValueModel> centres = new List<IdValueModel>();
             centres.Add(new IdValueModel { Id = null, Value = "(Не выбран)" });
@@ -255,15 +228,27 @@ namespace DeliveryServiceWebDBServer.Controllers
             {
                 tariffs.Add(new IdValueModel { Id = p.Id, Value = p.Name });
             }
-            Dictionary<string,string> descriptions = new Dictionary<string, string>();
+            Dictionary<string, string> descriptions = new Dictionary<string, string>();
             foreach (string p in Properties.Settings.Default.Descriptions)
             {
-                descriptions.Add(p,p);
+                descriptions.Add(p, p);
             }
-            ViewBag.CentreId = new SelectList(centres, "Id", "Value", null);
-            ViewBag.CityId = new SelectList(cities, "Id", "Value", null);
-            ViewBag.TariffId = new SelectList(tariffs, "Id", "Value", null);
-            ViewBag.Description = new SelectList(descriptions, "Key", "Value", null);
+            if (package == null)
+            {
+                ViewBag.CentreId = new SelectList(centres, "Id", "Value", null);
+                ViewBag.CityId = new SelectList(cities, "Id", "Value", null);
+                ViewBag.TariffId = new SelectList(tariffs, "Id", "Value", null);
+                ViewBag.Description = new SelectList(descriptions, "Key", "Value", null);
+            }
+            else
+            {
+                ViewBag.TariffId = new SelectList(tariffs, "Id", "Value", package.TariffId);
+                ViewBag.CityIdFrom = new SelectList(cities, "Id", "Value", db.Persons.Find(package.PersonIdFrom).CityId);
+                ViewBag.CentreIdFrom = new SelectList(centres, "Id", "Value", db.Persons.Find(package.PersonIdFrom).CentreId);
+                ViewBag.CityIdTo = new SelectList(cities, "Id", "Value", db.Persons.Find(package.PersonIdTo).CityId);
+                ViewBag.CentreIdTo = new SelectList(centres, "Id", "Value", db.Persons.Find(package.PersonIdTo).CentreId);
+                ViewBag.Description = new SelectList(descriptions, "Key", "Value", package.Description);
+            }
         }
         // GET: User/Create
         public ActionResult CreateStep1()
@@ -277,6 +262,14 @@ namespace DeliveryServiceWebDBServer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateStep1([Bind(Include = "Id,Name,MiddleName,Surname,Company,Phone,Mail,Index,CityId,Address,CentreId,InformingSMS,InformingMail")] Person person)
         {
+            if (!(person.Name != null && person.Surname != null || person.Company != null))
+                ModelState.AddModelError("", "Необходимо указать либо ФИО, либо название компании");
+            if (!(person.CityId != null && person.Address != null || person.CentreId != null))
+                ModelState.AddModelError("", "Необходимо либо выбрать пункт выдачи, либо указать адрес");
+            if (person.InformingMail && person.Mail == null)
+                ModelState.AddModelError("", "Для отправки уведомлений необходимо указать электронную почту");
+            if (person.InformingSMS && person.Phone == null)
+                ModelState.AddModelError("", "Для отправки уведомлений необходимо указать номер телефона");
             if (ModelState.IsValid)
             {
                 Person p = db.Persons.Add(person);
@@ -300,6 +293,14 @@ namespace DeliveryServiceWebDBServer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateStep2([Bind(Include = "FromId,Name,MiddleName,Surname,Company,Phone,Mail,Index,CityId,Address,CentreId,InformingSMS,InformingMail")] ToWithFromIdModel temp)
         {
+            if (!(temp.Name != null && temp.Surname != null || temp.Company != null))
+                ModelState.AddModelError("", "Необходимо указать либо ФИО, либо название компании");
+            if (!(temp.CityId != null && temp.Address != null || temp.CentreId != null))
+                ModelState.AddModelError("", "Необходимо либо выбрать пункт выдачи, либо указать адрес");
+            if (temp.InformingMail && temp.Mail == null)
+                ModelState.AddModelError("", "Для отправки уведомлений необходимо указать электронную почту");
+            if (temp.InformingSMS && temp.Phone == null)
+                ModelState.AddModelError("", "Для отправки уведомлений необходимо указать номер телефона");
             if (ModelState.IsValid)
             {
                 int fromId = temp.FromId;
@@ -338,8 +339,11 @@ namespace DeliveryServiceWebDBServer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateStep3([Bind(Include = "PersonIdFrom,PersonIdTo,TariffId,Description,Weight,Length,Width,Height,NumberOfPackages,Cost,DeclaredValue")] Package package)
         {
+            if (package.Weight == null || package.Length == null || package.Width == null || package.Height == null)
+                ModelState.AddModelError("", "Необходимо заполнить поля о весе и размерах груза");
             if (ModelState.IsValid)
             {
+                if (package.TariffId != null) package.Cost = Helper.EvaluateCost((int)package.TariffId, (double)package.Weight, (double)package.Height, (double)package.Length, (double)package.Width);
                 db.Packages.Add(package);
                 db.SaveChanges();
                 db.Records.Add(new Record { PackageId = package.Id, DateAndTime = DateTime.Now, Status = Statuses[0] });
@@ -363,7 +367,7 @@ namespace DeliveryServiceWebDBServer.Controllers
             {
                 return HttpNotFound();
             }
-            InitSelectLists();
+            InitSelectLists(package);
             return View(package);
         }
 
@@ -374,43 +378,167 @@ namespace DeliveryServiceWebDBServer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,PersonIdFrom,PersonIdTo,TariffId,Description,Weight,Length,Width,Height,NumberOfPackages,Cost,DeclaredValue")] Package package)
         {
+            if (package.Weight == null || package.Length == null || package.Width == null || package.Height == null)
+                ModelState.AddModelError("", "Необходимо заполнить поля о весе и размерах груза");
             if (ModelState.IsValid)
             {
+                if (package.TariffId != null)
+                {
+                    package.Cost = Helper.EvaluateCost((int)package.TariffId, (double)package.Weight, (double)package.Height, (double)package.Length, (double)package.Width);
+                  //  package.Tariff = db.Tariffs.Find(package.TariffId);
+                }
                 db.Entry(package).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["alertMessage"] = "Данные об отправлении изменены.";
+                return RedirectToAction("Details", new { id = package.Id });
             }
-            ViewBag.PersonIdFrom = new SelectList(db.Persons, "Id", "Name", package.PersonIdFrom);
-            ViewBag.PersonIdTo = new SelectList(db.Persons, "Id", "Name", package.PersonIdTo);
-            ViewBag.TariffId = new SelectList(db.Tariffs, "Id", "Name", package.TariffId);
-            return View(package);
+            Package refreshPackage = db.Packages.Find(package.Id);
+            InitSelectLists(refreshPackage);
+            return View(refreshPackage);
         }
-
-        // GET: Admin/Delete/5
-        public ActionResult Delete(int? id)
+        // GET: Admin/Edit/5
+        public ActionResult EditFrom(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Package package = db.Packages.Find(id);
-            if (package == null)
+            Person person = db.Persons.Find(package.PersonIdFrom);
+            if (person == null)
             {
                 return HttpNotFound();
             }
-            return View(package);
+            InitSelectLists(package);
+            ViewBag.CityId = ViewBag.CityIdFrom;
+            ViewBag.CentreId = ViewBag.CentreIdFrom;
+            return View(new PersonWithPackageIdModel
+            {
+                PackageId = (int)id,
+                Name = person.Name,
+                MiddleName = person.MiddleName,
+                Surname = person.Surname,
+                Company = person.Company,
+                Phone = person.Phone,
+                Mail = person.Mail,
+                Index = person.Index,
+                CityId = person.CityId,
+                Address = person.Address,
+                CentreId = person.CentreId,
+                InformingSMS = person.InformingSMS,
+                InformingMail = person.InformingMail
+            });
         }
 
-        // POST: Admin/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Admin/Edit/5
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult EditFrom([Bind(Include = "PackageId,Name,MiddleName,Surname,Company,Phone,Mail,Index,CityId,Address,CentreId,InformingSMS,InformingMail")] PersonWithPackageIdModel temp)
         {
-            Package package = db.Packages.Find(id);
-            db.Packages.Remove(package);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            Package package = db.Packages.Find(temp.PackageId);
+            if (ModelState.IsValid)
+            {
+                Person person = new Person
+                {
+                    Name = temp.Name,
+                    MiddleName = temp.MiddleName,
+                    Surname = temp.Surname,
+                    Company = temp.Company,
+                    Phone = temp.Phone,
+                    Mail = temp.Mail,
+                    Index = temp.Index,
+                    CityId = temp.CityId,
+                    Address = temp.Address,
+                    CentreId = temp.CentreId,
+                    InformingSMS = temp.InformingSMS,
+                    InformingMail = temp.InformingMail
+                };
+                db.Persons.Add(person);
+                db.SaveChanges();
+                package.PersonIdFrom = person.Id;
+                db.Entry(package).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["alertMessage"] = "Отправитель изменен.";
+                InitSelectLists(package);
+                return RedirectToAction("Edit", new { id = temp.PackageId });
+            }
+            InitSelectLists(package);
+            ViewBag.CityId = ViewBag.CityIdFrom;
+            ViewBag.CentreId = ViewBag.CentreIdFrom;
+            return View(temp);
         }
+
+        public ActionResult EditTo(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Package package = db.Packages.Find(id);
+            Person person = db.Persons.Find(package.PersonIdTo);
+            if (person == null)
+            {
+                return HttpNotFound();
+            }
+            InitSelectLists(package);
+            ViewBag.CityId = ViewBag.CityIdFrom;
+            ViewBag.CentreId = ViewBag.CentreIdFrom;
+            return View(new PersonWithPackageIdModel
+            {
+                PackageId = (int)id,
+                Name = person.Name,
+                MiddleName = person.MiddleName,
+                Surname = person.Surname,
+                Company = person.Company,
+                Phone = person.Phone,
+                Mail = person.Mail,
+                Index = person.Index,
+                CityId = person.CityId,
+                Address = person.Address,
+                CentreId = person.CentreId,
+                InformingSMS = person.InformingSMS,
+                InformingMail = person.InformingMail
+            });
+        }
+
+        // POST: Admin/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTo([Bind(Include = "PackageId,Name,MiddleName,Surname,Company,Phone,Mail,Index,CityId,Address,CentreId,InformingSMS,InformingMail")] PersonWithPackageIdModel temp)
+        {
+            Package package = db.Packages.Find(temp.PackageId);
+            if (ModelState.IsValid)
+            {
+                Person person = new Person
+                {
+                    Name = temp.Name,
+                    MiddleName = temp.MiddleName,
+                    Surname = temp.Surname,
+                    Company = temp.Company,
+                    Phone = temp.Phone,
+                    Mail = temp.Mail,
+                    Index = temp.Index,
+                    CityId = temp.CityId,
+                    Address = temp.Address,
+                    CentreId = temp.CentreId,
+                    InformingSMS = temp.InformingSMS,
+                    InformingMail = temp.InformingMail
+                };
+                db.Persons.Add(person);
+                db.SaveChanges();
+                package.PersonIdTo = person.Id;
+                db.Entry(package).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["alertMessage"] = "Получатель изменен.";
+                InitSelectLists(package);
+                return RedirectToAction("Edit",new { id = temp.PackageId });
+            }
+            InitSelectLists(package);
+            ViewBag.CityId = ViewBag.CityIdFrom;
+            ViewBag.CentreId = ViewBag.CentreIdFrom;
+            return View(temp);
+        }
+
         public ActionResult Constructor()
         {
             return View();

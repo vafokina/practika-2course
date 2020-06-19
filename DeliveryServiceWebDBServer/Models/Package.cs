@@ -11,7 +11,8 @@ namespace DeliveryServiceWebDBServer.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Package
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -26,11 +27,17 @@ namespace DeliveryServiceWebDBServer.Models
         public int PersonIdFrom { get; set; }
         public int PersonIdTo { get; set; }
         public Nullable<int> TariffId { get; set; }
+//  [Required(ErrorMessage = "Это поле обязательно для заполнения.")]
         public string Description { get; set; }
+  //      [Required(ErrorMessage = "Это поле обязательно для заполнения.")]
         public Nullable<double> Weight { get; set; }
+    //    [Required(ErrorMessage = "Это поле обязательно для заполнения.")]
         public Nullable<double> Length { get; set; }
+      //  [Required(ErrorMessage = "Это поле обязательно для заполнения.")]
         public Nullable<double> Width { get; set; }
+      //  [Required(ErrorMessage = "Это поле обязательно для заполнения.")]
         public Nullable<double> Height { get; set; }
+      //  [Required(ErrorMessage = "Это поле обязательно для заполнения.")]
         public int NumberOfPackages { get; set; }
         public Nullable<double> Cost { get; set; }
         public Nullable<double> DeclaredValue { get; set; }

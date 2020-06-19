@@ -129,7 +129,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PersonIdFrom" Type="int" StoreGeneratedPattern="None" Nullable="false" />
     <Property Name="PersonIdTo" Type="int" StoreGeneratedPattern="None" Nullable="false" />
-    <Property Name="TariffId" Type="int" StoreGeneratedPattern="Identity" Nullable="true" />
+    <Property Name="TariffId" Type="int" StoreGeneratedPattern="None" Nullable="true" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Weight" Type="float" Nullable="true" />
     <Property Name="Length" Type="float" Nullable="true" />
@@ -511,7 +511,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PersonIdFrom" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="PersonIdTo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="TariffId" Type="Int32" Nullable="true" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TariffId" Type="Int32" Nullable="true" annotation:StoreGeneratedPattern="None" />
           <Property Name="Description" Type="String" Nullable="true" />
           <Property Name="Weight" Type="Double" Nullable="true" />
           <Property Name="Length" Type="Double" Nullable="true" />

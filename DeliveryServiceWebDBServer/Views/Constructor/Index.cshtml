@@ -1,15 +1,37 @@
-﻿@using (Html.BeginForm())
-{
-    <fieldset>
-        <legend>Выберите таблицы:</legend>
-        <input type="checkbox" name="table" value="Packages">Отправления<br>
-        <input type="checkbox" name="table" value="Persons">Получатели-Отправители<br>
-        <input type="checkbox" name="table" value="Centres">Пункты выдачи<br>
-        <input type="checkbox" name="table" value="Cities">Города<br>
-        <input type="checkbox" name="table" value="Regions">Регионы<br>
-        <input type="checkbox" name="table" value="Countries">Страны<br>
-        <input type="checkbox" name="table" value="Tariffs">Тарифы<br>
-        <br>
-        <input type="submit" value="Далее" />
-    </fieldset>
+﻿@using DeliveryServiceWebDBServer.Models
+@{
+
+    ViewBag.Title = "Расширенный поиск";
 }
+
+
+<div class="panel panel-default tabs">
+    <ul class="nav nav-tabs" role="tablist">
+        <li><a href="~/Admin/Index">Работа с данными</a></li>
+        <li class="active"><a href="~/Constructor/Index" role="tab" data-toggle="tab">Расширенный поиск</a></li>
+    </ul>
+    <div class="panel-body tab-content">
+        <div class="tab-pane" id="tab-first">  </div>
+        <div class="tab-pane active" id="tab-second">
+            @using (Html.BeginForm())
+            {
+                <fieldset>
+                    <legend>Выберите таблицы:</legend>
+                    <input type="checkbox" name="table" value="Отправления">Отправления<br>
+                    <input type="checkbox" name="table" value="ПолучателиОтправители">ПолучателиОтправители<br>
+                    <input type="checkbox" name="table" value="ПунктыВыдачи">ПунктыВыдачи<br>
+                    <input type="checkbox" name="table" value="Города">Города<br>
+                    <input type="checkbox" name="table" value="Регионы">Регионы<br>
+                    <input type="checkbox" name="table" value="Страны">Страны<br>
+                    <input type="checkbox" name="table" value="Тарифы">Тарифы<br>
+                    <br>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <input type="submit" class="btn btn-default" value="Далее" />
+                </fieldset>
+            }
+        </div>
+    </div>
+</div>
+
+
+
